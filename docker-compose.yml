@@ -30,6 +30,16 @@ services:
     networks:
       - nodinx
 
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    networks:
+      - nodinx
+    ports:
+      - "8080:80"
+
 networks:
   nodinx:
     driver: bridge
