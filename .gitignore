@@ -1,0 +1,5 @@
+# Database docker volume
+mysql
+
+# Node dependencies
+node_modules

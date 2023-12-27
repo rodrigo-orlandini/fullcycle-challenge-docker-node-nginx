@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    container_name: application
+    entrypoint: dockerize -wait tcp://database:3306 -timeout 60s docker-entrypoint.sh
+    command: node index.js
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - nodinx
+
+  database:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: database
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=node
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - nodinx
+
+networks:
+  nodinx:
+    driver: bridge
