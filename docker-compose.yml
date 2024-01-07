@@ -9,6 +9,8 @@ services:
     entrypoint: dockerize -wait tcp://database:3306 -timeout 60s docker-entrypoint.sh
     command: node index.js
     tty: true
+    volumes:
+      - .:/usr/src/app
     ports:
       - "3000:3000"
     depends_on:
@@ -35,6 +37,8 @@ services:
       context: .
       dockerfile: Dockerfile.nginx
     container_name: nginx
+    depends_on:
+      - application
     networks:
       - nodinx
     ports:
